@@ -2,23 +2,22 @@ using UnityEngine;
 
 public class MoveState : PlayerBaseState
 {
-    private float _currentMoveSpeed;
-    private Vector3 _currentMoveDirection;
-
     public MoveState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        
+
     }
 
     public override void Enter()
     {
-        _currentMoveSpeed = stateMachine.baseMoveSpeed;
-        _currentMoveDirection = Vector3.zero;
+        
     }
 
     public override void Tick(float deltaTime)
     {
-        Move(deltaTime);
+
+        RotateModel(deltaTime);
+        RotateTowardsCamera(deltaTime);
+        
     }
 
     public override void Exit()
@@ -26,24 +25,63 @@ public class MoveState : PlayerBaseState
         
     }
 
-    private void Move(float deltaTime)
+    private void Move(Vector3 direction)
+    {
+        if (direction.sqrMagnitude > 0f)
+        {
+            stateMachine.rigidbody.AddForce(direction.normalized * stateMachine.force, ForceMode.Acceleration);
+        }
+
+        if (stateMachine.rigidbody.linearVelocity.magnitude > stateMachine.sprintMoveSpeed)
+        {
+            stateMachine.rigidbody.linearVelocity = stateMachine.rigidbody.linearVelocity.normalized * stateMachine.sprintMoveSpeed;
+        }
+    }
+
+    private void RotateModel(float deltaTime)
+    {
+        float maxRotationAngle = stateMachine.rotationAngle;
+
+        Vector3 input = stateMachine.inputReader.GetMovementValue();
+
+        float pitch = input.z * maxRotationAngle;
+        float roll = -input.x * maxRotationAngle;
+
+        Quaternion targetRotation = Quaternion.Euler(pitch, 0f, roll);
+
+        stateMachine.model.transform.localRotation = Quaternion.RotateTowards(stateMachine.model.transform.localRotation, targetRotation, stateMachine.rotationSpeed * deltaTime);
+    }
+
+    private void RotateTowardsCamera(float deltaTime)
     {
         Vector3 input = stateMachine.inputReader.GetMovementValue();
-        // float acceleration = (stateMachine.sprintMoveSpeed - stateMachine.baseMoveSpeed) / stateMachine.accelerationTime;
 
-        if (input.sqrMagnitude > 0f)
+        Transform cameraTransform = Camera.main.transform;
+
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 direction = forward * input.z + right * input.x + Vector3.up * input.y;
+
+        if (direction.sqrMagnitude <= 0f)
         {
-            _currentMoveDirection = input.normalized;
-            // _currentMoveSpeed = Mathf.Max(_currentMoveSpeed, stateMachine.baseMoveSpeed);
-            _currentMoveSpeed = Mathf.MoveTowards(_currentMoveSpeed, stateMachine.sprintMoveSpeed,  stateMachine.accelerationTime * deltaTime);
+            return;
         }
-        else
+
+        Vector3 horizontalDirection = new Vector3(direction.x, 0f, direction.z);
+
+        if (horizontalDirection.sqrMagnitude > 0f)
         {
-            _currentMoveSpeed = Mathf.MoveTowards(_currentMoveSpeed, 0f, stateMachine.relentizationTime * deltaTime);
+            Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
+
+            stateMachine.rigidbody.MoveRotation(Quaternion.RotateTowards(stateMachine.rigidbody.rotation, targetRotation, stateMachine.rotationSpeed * deltaTime));
         }
-        
-        stateMachine.controller.Move(_currentMoveDirection * (_currentMoveSpeed * deltaTime));
-        
-        Debug.Log(input);
+        Move(direction);
     }
 }

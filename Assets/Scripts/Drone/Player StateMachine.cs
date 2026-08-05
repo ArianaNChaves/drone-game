@@ -5,15 +5,18 @@ public class PlayerStateMachine : StateMachine
 {
     
     [SerializeField] public InputReaderDrone inputReader;
-    [SerializeField] public CharacterController controller;
+    [SerializeField] public Collider collider;
+    [SerializeField] public Rigidbody rigidbody;
+    [SerializeField] public GameObject model;
+    [SerializeField] public Camera mainCamera;
+    
     
     [Header("Data")]
     [SerializeField] public float baseMoveSpeed;
     [SerializeField] public float sprintMoveSpeed;
-    [SerializeField] public float accelerationTime;
-    [SerializeField] public float relentizationTime;
+    [SerializeField] public float force;
     [SerializeField] public float rotationSpeed;
-    [SerializeField] public float gravity;
+    [SerializeField] public float rotationAngle;
 
 
     private void Start()
