@@ -29,12 +29,12 @@ public class MoveState : PlayerBaseState
     {
         if (direction.sqrMagnitude > 0f)
         {
-            stateMachine.rigidbody.AddForce(direction.normalized * stateMachine.force, ForceMode.Acceleration);
+            stateMachine.playerRigidbody.AddForce(direction.normalized * stateMachine.force, ForceMode.Acceleration);
         }
-
-        if (stateMachine.rigidbody.linearVelocity.magnitude > stateMachine.sprintMoveSpeed)
+        
+        if (stateMachine.playerRigidbody.linearVelocity.magnitude > stateMachine.sprintMoveSpeed)
         {
-            stateMachine.rigidbody.linearVelocity = stateMachine.rigidbody.linearVelocity.normalized * stateMachine.sprintMoveSpeed;
+            stateMachine.playerRigidbody.linearVelocity = stateMachine.playerRigidbody.linearVelocity.normalized * stateMachine.sprintMoveSpeed;
         }
     }
 
@@ -80,7 +80,7 @@ public class MoveState : PlayerBaseState
         {
             Quaternion targetRotation = Quaternion.LookRotation(horizontalDirection);
 
-            stateMachine.rigidbody.MoveRotation(Quaternion.RotateTowards(stateMachine.rigidbody.rotation, targetRotation, stateMachine.rotationSpeed * deltaTime));
+            stateMachine.playerRigidbody.MoveRotation(Quaternion.RotateTowards(stateMachine.playerRigidbody.rotation, targetRotation, stateMachine.rotationSpeed * deltaTime));
         }
         Move(direction);
     }

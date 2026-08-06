@@ -5,8 +5,8 @@ public class PlayerStateMachine : StateMachine
 {
     
     [SerializeField] public InputReaderDrone inputReader;
-    [SerializeField] public Collider collider;
-    [SerializeField] public Rigidbody rigidbody;
+    [SerializeField] public Collider playerCollider;
+    [SerializeField] public Rigidbody playerRigidbody;
     [SerializeField] public GameObject model;
     [SerializeField] public Camera mainCamera;
     
