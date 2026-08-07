@@ -109,6 +109,15 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""e56869db-a369-468e-8796-03fd1eda1a1f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -210,6 +219,17 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
                     ""action"": ""Grab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aae3ec19-68cd-4d1d-88fb-c14d4c513049"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,6 +263,7 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
         m_Flying = asset.FindActionMap("Flying", throwIfNotFound: true);
         m_Flying_Movement = m_Flying.FindAction("Movement", throwIfNotFound: true);
         m_Flying_Grab = m_Flying.FindAction("Grab", throwIfNotFound: true);
+        m_Flying_Sprint = m_Flying.FindAction("Sprint", throwIfNotFound: true);
     }
 
     ~@InputDrone()
@@ -325,6 +346,7 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
     private List<IFlyingActions> m_FlyingActionsCallbackInterfaces = new List<IFlyingActions>();
     private readonly InputAction m_Flying_Movement;
     private readonly InputAction m_Flying_Grab;
+    private readonly InputAction m_Flying_Sprint;
     /// <summary>
     /// Provides access to input actions defined in input action map "Flying".
     /// </summary>
@@ -344,6 +366,10 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Flying/Grab".
         /// </summary>
         public InputAction @Grab => m_Wrapper.m_Flying_Grab;
+        /// <summary>
+        /// Provides access to the underlying input action "Flying/Sprint".
+        /// </summary>
+        public InputAction @Sprint => m_Wrapper.m_Flying_Sprint;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -376,6 +402,9 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
             @Grab.started += instance.OnGrab;
             @Grab.performed += instance.OnGrab;
             @Grab.canceled += instance.OnGrab;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
         }
 
         /// <summary>
@@ -393,6 +422,9 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
             @Grab.started -= instance.OnGrab;
             @Grab.performed -= instance.OnGrab;
             @Grab.canceled -= instance.OnGrab;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
         }
 
         /// <summary>
@@ -473,5 +505,12 @@ public partial class @InputDrone: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGrab(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

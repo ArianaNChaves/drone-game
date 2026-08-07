@@ -3,6 +3,7 @@ using UnityEngine;
 public class Grab : MonoBehaviour
 {
     [SerializeField] private InputReaderDrone inputReader;
+    [SerializeField] private LayerMask grabLayer;
     
     private bool canGrab = false;
     private HingeJoint _hingeJoint;
@@ -11,12 +12,12 @@ public class Grab : MonoBehaviour
     void Start()
     {
         _hingeJoint = this.GetComponent<HingeJoint>();
-        inputReader.isGrabbingEvent += Grabbing;
+        inputReader.IsGrabbingEvent += Grabbing;
     }
-
+    
     private void Grabbing(bool obj)
     {
-
+        
         if (obj && canGrab && _hingeJoint != null)
         {
             _hingeJoint.connectedBody = _box;
@@ -30,7 +31,7 @@ public class Grab : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Box")
+        if (CompareLayers.CompareLayerAndMask(other.gameObject.layer, grabLayer))
         {
             _box = other.GetComponent<BaseGrabable>().GetRigidbody();
             canGrab = true;
@@ -39,7 +40,7 @@ public class Grab : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Box")
+        if (CompareLayers.CompareLayerAndMask(other.gameObject.layer, grabLayer))
         {
             canGrab = false; 
         }

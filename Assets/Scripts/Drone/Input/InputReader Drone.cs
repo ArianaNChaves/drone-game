@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 
 public class InputReaderDrone : MonoBehaviour,  InputDrone.IFlyingActions
 {
-    public event Action<bool> isGrabbingEvent;
+    public event Action<bool> IsGrabbingEvent;
+    public event Action<bool> IsSprintingEvent;
     private InputDrone _inputDrone;
     private Vector3 _movementValue;
     private float _upValue;
@@ -27,9 +28,20 @@ public class InputReaderDrone : MonoBehaviour,  InputDrone.IFlyingActions
     {
         if (context.performed)
         {
-            Debug.Log("APRETE BOTON");
             _isGrabbing = !_isGrabbing;
-            isGrabbingEvent?.Invoke(_isGrabbing);
+            IsGrabbingEvent?.Invoke(_isGrabbing);
+        }
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            IsSprintingEvent?.Invoke(true);
+        }
+        else if (context.canceled)
+        {
+            IsSprintingEvent?.Invoke(false);
         }
     }
 

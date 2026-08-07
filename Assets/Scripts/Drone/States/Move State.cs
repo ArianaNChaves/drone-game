@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MoveState : PlayerBaseState
 {
+    
+    private bool _isSprinting;
     public MoveState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
 
@@ -9,8 +11,9 @@ public class MoveState : PlayerBaseState
 
     public override void Enter()
     {
-        
+        stateMachine.inputReader.IsSprintingEvent += IsSprinting;
     }
+    
 
     public override void Tick(float deltaTime)
     {
@@ -22,7 +25,7 @@ public class MoveState : PlayerBaseState
 
     public override void Exit()
     {
-        
+        stateMachine.inputReader.IsSprintingEvent -= IsSprinting;
     }
 
     private void Move(Vector3 direction)
@@ -32,10 +35,24 @@ public class MoveState : PlayerBaseState
             stateMachine.playerRigidbody.AddForce(direction.normalized * stateMachine.force, ForceMode.Acceleration);
         }
         
-        if (stateMachine.playerRigidbody.linearVelocity.magnitude > stateMachine.sprintMoveSpeed)
+        if (stateMachine.playerRigidbody.linearVelocity.magnitude > stateMachine.baseMoveSpeed)
         {
-            stateMachine.playerRigidbody.linearVelocity = stateMachine.playerRigidbody.linearVelocity.normalized * stateMachine.sprintMoveSpeed;
+            if (_isSprinting)
+            {
+                
+                stateMachine.playerRigidbody.linearVelocity = stateMachine.playerRigidbody.linearVelocity.normalized * stateMachine.sprintMoveSpeed;
+            }
+            else
+            {
+                stateMachine.playerRigidbody.linearVelocity = stateMachine.playerRigidbody.linearVelocity.normalized * stateMachine.baseMoveSpeed;
+            }
         }
+    }
+    
+    
+    private void IsSprinting(bool obj)
+    {
+        _isSprinting = obj;
     }
 
     private void RotateModel(float deltaTime)
