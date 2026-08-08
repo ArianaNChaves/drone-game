@@ -529,6 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TakeBox
   inputReader: {fileID: 7276535992293920537}
+  magnetObject: {fileID: 0}
   grabLayer:
     serializedVersion: 2
     m_Bits: 0
