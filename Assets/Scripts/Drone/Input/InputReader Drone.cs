@@ -4,13 +4,13 @@ using UnityEngine.InputSystem;
 
 public class InputReaderDrone : MonoBehaviour,  InputDrone.IFlyingActions
 {
-    public event Action<bool> IsGrabbingEvent;
+    public event Action IsGrabbingEvent;
     public event Action<bool> IsSprintingEvent;
     private InputDrone _inputDrone;
     private Vector3 _movementValue;
     private float _upValue;
     private float _downValue;
-    private bool _isGrabbing;
+    private bool _isGrabbing = false;
     
     private void Start()
     {
@@ -28,8 +28,7 @@ public class InputReaderDrone : MonoBehaviour,  InputDrone.IFlyingActions
     {
         if (context.performed)
         {
-            _isGrabbing = !_isGrabbing;
-            IsGrabbingEvent?.Invoke(_isGrabbing);
+            IsGrabbingEvent?.Invoke();
         }
     }
 

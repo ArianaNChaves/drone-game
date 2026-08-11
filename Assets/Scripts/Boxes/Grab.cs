@@ -6,7 +6,7 @@ public class Grab : MonoBehaviour
     [SerializeField] private GameObject magnetObject;
     [SerializeField] private LayerMask grabLayer;
     
-    private bool canGrab = false;
+    private bool _canGrab = false;
     private HingeJoint _hingeJoint;
     private Rigidbody _box;
     private LayerMask _magnetLayer;
@@ -21,29 +21,43 @@ public class Grab : MonoBehaviour
         _playerLayer = LayerMask.NameToLayer("Player");
     }
     
-    private void Grabbing(bool obj)
+    private void Grabbing()
     {
-        
-        if (obj && canGrab && _hingeJoint != null)
+
+        if (!_canGrab)
         {
-            magnetObject.layer = _playerLayer;
-            _hingeJoint.connectedBody = _box;
+            return;
         }
-        else
+        
+        if (_hingeJoint.connectedBody != null)
         {
-            magnetObject.layer = _magnetLayer;
-            _hingeJoint.connectedBody = null;
+            Detach();
+        } 
+        else if (_hingeJoint.connectedBody == null)
+        {
+            Attach();
         }
     }
 
+    private void Attach()
+    {
+        magnetObject.layer = _playerLayer;
+        _hingeJoint.connectedBody = _box;
+    }
+
+    private void Detach()
+    {
+        magnetObject.layer = _magnetLayer;
+        _hingeJoint.connectedBody = null;
+    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
         if (CompareLayers.CompareLayerAndMask(other.gameObject.layer, grabLayer))
         {
-            
             _box = other.GetComponent<BaseGrabable>().GetRigidbody();
-            canGrab = true;
+            _canGrab = true;
         }
     }
 
@@ -51,7 +65,9 @@ public class Grab : MonoBehaviour
     {
         if (CompareLayers.CompareLayerAndMask(other.gameObject.layer, grabLayer))
         {
-            canGrab = false; 
+            Detach();
+            _canGrab = false; 
+
         }
     }
 }
