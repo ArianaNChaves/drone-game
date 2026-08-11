@@ -194,17 +194,17 @@ LineRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Positions:
-  - {x: 0, y: -1.11, z: 0}
-  - {x: 0, y: -1.4705, z: 0}
-  - {x: 0, y: -1.8309999, z: 0}
-  - {x: 0, y: -2.1915, z: 0}
-  - {x: 0, y: -2.5519998, z: 0}
-  - {x: 0, y: -2.9124997, z: 0}
-  - {x: 0, y: -3.2729998, z: 0}
-  - {x: 0, y: -3.6334994, z: 0}
-  - {x: 0, y: -3.9939995, z: 0}
-  - {x: 0, y: -4.354499, z: 0}
-  - {x: 0, y: -4.714999, z: 0}
+  - {x: 0, y: 16.14, z: 0}
+  - {x: 0, y: 15.779499, z: 0}
+  - {x: 0, y: 15.419001, z: 0}
+  - {x: 0, y: 15.058499, z: 0}
+  - {x: 0, y: 14.698, z: 0}
+  - {x: 0, y: 14.3375, z: 0}
+  - {x: 0, y: 13.976999, z: 0}
+  - {x: 0, y: 13.6165, z: 0}
+  - {x: 0, y: 13.2560005, z: 0}
+  - {x: 0, y: 12.8955, z: 0}
+  - {x: 0, y: 12.535001, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 6399291081458123138}
   - component: {fileID: 5697659338293359714}
   - component: {fileID: 2306899104440547856}
-  - component: {fileID: 766644989188539420}
+  - component: {fileID: 6154393658414172978}
   m_Layer: 0
   m_Name: Magnet Trigger
   m_TagString: Untagged
@@ -510,7 +510,7 @@ Transform:
   m_GameObject: {fileID: 6907292609212187077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.088, z: 0}
+  m_LocalPosition: {x: 0, y: -1.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -529,10 +529,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TakeBox
   inputReader: {fileID: 7276535992293920537}
-  magnetObject: {fileID: 0}
+  magnetObject: {fileID: 3294813198052657737}
   grabLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!54 &5697659338293359714
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -572,8 +572,8 @@ HingeJoint:
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 0
+  m_ConnectedAnchor: {x: 0, y: 0.4, z: 0}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -599,8 +599,8 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!65 &766644989188539420
-BoxCollider:
+--- !u!135 &6154393658414172978
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -618,8 +618,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.36, y: 0.69, z: 2.36}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.57
+  m_Center: {x: 0, y: -0.34, z: 0}
 --- !u!1 &7314090786647687736
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +857,7 @@ GameObject:
   - component: {fileID: 2629195961396325214}
   - component: {fileID: 3304627749420398168}
   m_Layer: 8
-  m_Name: Sphere
+  m_Name: Sprint Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,7 +1320,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.72
+  m_Radius: 0.7
   m_Center: {x: 0, y: -0.28, z: -0.000000059604645}
 --- !u!1001 &9083075212848624417
 PrefabInstance:
